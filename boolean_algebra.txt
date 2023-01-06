@@ -1,0 +1,292 @@
+Boolean algebra.
+
+A binary operator * accepts a pair of Boolean inputs and produces a single Boolean output. For any given algebra system, there is a set of axioms, hereinafter called "postulates," that the system follows. From these postulates, one can determine additional properties of the system. Boolean algebra systems have the following postulates:
+
+- Closure: a pair of Boolean inputs produces a Boolean output.
+- Commutativity: for a binary operator *, A * B = B * A for all Boolean pairs A, B.
+- Associativity: for a binary operator *, (A * B) * C = A * (B * C) for Boolean values A, B, and C.
+- Distributivity: for two binary operators * and ^, A * (B ^ C) = (A * B) ^ (A * C) for Boolean values A, B, and C.
+- Identity: there is a Boolean value e such that A * e = A for a Boolean value A and binary operator *.
+- Inverse: if A * B = C and A is not equal to C, B is an inverse of A for Boolean values A, B, and C and a binary operator *. 
+
+The two possible values in our Boolean algebra system are zero (false) and one (true). "•" will represent the logical AND operation. For simplicity, A • B will be represented by AB hereinafter. "+" will represent the logcal OR operation. This operation may also be called the sum of A and B for A + B. "'" will represent the logical complement, negation, or NOT operation. For example, NOT A is like A'. The precedence that is used for these operations are paretheses, NOT, AND, OR. AND and OR are left associative, meaning that if they are adjacent, you must evaluate them from left to right. The postulates employed hereinafter:
+
+- Closed under AND, OR, and NOT.
+- The identity element with respect to • is one and + is zero. NOT does not have an identity element. 
+- AND and OR are commutative.
+- AND and OR are distributive with respect to one another.
+- For every A there is an A' such that AA' = 0 and A + A' = 0.
+- AND and OR are associative.
+
+The following list is a sampling of Boolean algebra theorems:
+
+1.   A + A = A
+2.   AA = A
+3.   A + 0 = A
+4.   A • 1 = A
+5.   A • 0 = 0
+6.   A + 1 = 1
+7.   (A + B)' = A'B'
+8.   (AB)' = A' + B'
+9.   A + AB = A
+10.  A(A + B) = A
+11.  A + A'B = A + B
+12.  A'(A + B') = A'B'
+13.  AB + AB' = A
+14.  (A' + B')(A' + B) = A'
+15.  A + A' = 1
+16.  AA' = 0
+
+Theorems seven and eight are De Morgan's laws. Each pair of theorems form a dual. Duality is an important Boolean algebra principle. Any valid expression you can create using the postulates and theorems of Boolean algebra remains valid if you interchange the operators and constants appearing in the expression. This fact does not mean that the dual expression computes the same values.
+
+Boolean functions and truth tables.
+A Boolean  expression is a sequence of zeros, ones, and literals separated by Boolean operators.  Boolean function is a specific Boolean expression. For example, if F = AB + C, and A = 1, B = 0, and C = 1, then F returns one. We can represent Boolean functions with a truth table. A truth table for F would look something like the table below:
+
+----------------------------------------
+            |            BA             
+ F = AB + C |---------------------------
+            |  00  |  01  |  10  |  11  
+----------------------------------------
+     |   0  |   0  |   0  |   0  |   1  
+  C  |------|---------------------------
+     |   1  |   1  |   1  |   1  |   1  
+----------------------------------------
+
+Suppose F has four variables now.
+
+-----------------------------------------
+             |            BA             
+ F = AB + CD |---------------------------
+             |  00  |  01  |  10  |  11  
+-----------------------------------------
+     |  00   |   0  |   0  |   0  |   1  
+     |-------|---------------------------
+     |  01   |   0  |   0  |   0  |   1  
+ DC  |-------|---------------------------
+     |  10   |   0  |   0  |   0  |   1  
+     |-------|---------------------------
+     |  11   |   1  |   1  |   1  |   1  
+-----------------------------------------
+
+Take a look at another format for truth tables.
+
+-----------------------------------------------------------------------------------
+      C      |      B      |      A      ||   F = ABC  |  F = AB + C |  F = A + BC 
+-----------------------------------------------------------------------------------
+      0      |      0      |      0      ||      0     |      0      |      0      
+-----------------------------------------------------------------------------------
+      0      |      0      |      1      ||      0     |      0      |      1      
+-----------------------------------------------------------------------------------
+      0      |      1      |      0      ||      0     |      0      |      0      
+-----------------------------------------------------------------------------------
+      0      |      1      |      1      ||      0     |      1      |      1      
+-----------------------------------------------------------------------------------
+      1      |      0      |      0      ||      0     |      1      |      0      
+-----------------------------------------------------------------------------------
+      1      |      0      |      1      ||      0     |      1      |      1      
+-----------------------------------------------------------------------------------
+      1      |      1      |      0      ||      0     |      1      |      1      
+-----------------------------------------------------------------------------------
+      1      |      1      |      1      ||      1     |      1      |      1      
+-----------------------------------------------------------------------------------
+
+Although one can create an infinite number of Boolean functions, not all are unique. F = A and G = AA are two functions. By theorem two, though, they are equivalent. If one fixes the number of input variables, there are a finite number of unique Boolean functions. Given n input variables, there are 2**(2**n) unique Boolean functions. We number each Boolean function of two variables:
+
+0.  Zero or clear. Always returns zero.
+1.  Logical NOR. NOT (A OR B) = (A + B)'.
+2.  Inhibition. BA'. Equivalent to B > A.
+3.  NOT A. Returns A'.
+4.  Inhibition. AB'. Equivalent to A > B.
+5.  NOT B. Returns B'.
+6.  XOR.
+7.  Logical NAND. NOT (A AND B) = (AB)'.
+8.  Logical AND. AB.
+9.  Equivalence.
+10. Copy B. B.
+11. Implication. B implies A = A + B'. B >= A.
+12. Copy A. A.
+13. Implication. A implies B = B + A'. A >= B.
+14. Logical OR. A + B.
+15. One or set. Always returns one.
+
+We will now refer to a Boolean function of two variables by its corresponding number. For instance, logical OR would be referred to as F14. 
+
+Algebraic manipulation of Boolean expressions.
+One can transform a Boolean expression into a simpler Boolean expression by applying the postulates or theorems of Boolean algebra. This idea is useful when you want to convert an expression into its canonical form. Minimizing terms and expressions can be important because circuits often cosist of individual components that implement each term or literal for a given expression. Minimizing the expression allows the designer to use fewer electrical components and, therefore, can reduce the cost of the system. There are no fixed rules for optimizing a given expression. Let us look at a few examples.
+
+1.   ab + ab' + a'b
+   = a(b + b') + a'b		by P4
+   = a • 1 + a'b 		by P5
+   = a + a'b			by Th4
+   = a + a'b + 0			by Th3
+   = a + a'b + aa'		by P5
+   = a + b(a + a')		by P4
+   = a + b • 1			by P5
+   = a + b			by Th4
+
+2.   (a'b + a'b' + b')'
+   = (a'(b + b') + b')'		by P4
+   = (a' + b')'			by P5
+   = ((ab)')'			by Th8
+   = ab				by the definition of not
+
+3.   b(a + c) + ab' + bc' + c
+   = ba + bc + ab' + bc' + c	by P4
+   = a(b + b') + b(c + c') + c	by P4
+   = a • 1 + b • 1 + c		by P5
+   = a + b + c			by Th4
+
+Canonical forms.
+For any given Boolean function there exists a unique canonical form. There are several different canonical forms, but only two will be discussed: the sum of minterms and the product of maxterms. A term is a variable or product of several different literals. With two variables, there are eight possible terms: A, B, A', B', AB, A'B, AB', and A'B'. With three variables, there are twenty-six different terms. A minterm is a product containing exactly n literals, e.g. for two variables the minterms are AB, A'B, AB', and A'B'. In general, there are 2**n minterms for n variables. The set of possible minterms is easy to generate since they correspond to the sequence of binary numbers:
+
+-----------------------------------------------------
+ Binary equivalent (CBA)  |         Minterm          
+-----------------------------------------------------
+           000            |          A'B'C'
+-----------------------------------------------------
+           001            |           AB'C'
+-----------------------------------------------------
+           010            |           A'BC'
+-----------------------------------------------------
+           011            |            ABC'
+-----------------------------------------------------
+           100            |           A'B'C
+-----------------------------------------------------
+           101            |            AB'C
+-----------------------------------------------------
+           110            |            A'BC
+-----------------------------------------------------
+           111            |             ABC
+-----------------------------------------------------
+
+We can specify any Boolean function using a sum of minterms. Given F248 = AB + C, the equivalent canonical form is ABC + A'BC + AB'C + A'B'C + ABC'. The canonical form is suboptimal. The advantage of this form is the ease of generating a truth table for the function. It is also very easy to generate the logic equation from the truth table. To build a truth table from the canonical form, convert each minterm inito a 1 for unprimed values and a 0 for primed values. In the truth table, the value is 1 if it is a minterm. It is 0 otherwise. Take F248.
+
+F248 = CBA + CBA' + CB'A + CB'A' + C'BA
+     = 111 + 110  + 101  + 100   + 011
+
+From here, we can generate the truth table.
+
+--------------------------------------------------------------
+       C       |       B       |       A       |  F = AB + C
+--------------------------------------------------------------
+       0       |       0       |       0       |       0
+--------------------------------------------------------------
+       0       |       0       |       1       |       0
+--------------------------------------------------------------
+       0       |       1       |       0       |       0
+--------------------------------------------------------------
+       0       |       1       |       1       |       1
+--------------------------------------------------------------
+       1       |       0       |       0       |       1
+--------------------------------------------------------------
+       1       |       0       |       1       |       1
+--------------------------------------------------------------
+       1       |       1       |       0       |       1
+--------------------------------------------------------------
+       1       |       1       |       1       |       1
+--------------------------------------------------------------
+
+Generating a logic function from a truth table is as easy as what we just did. Locate all the entries with a one. These are the last five entries in the table above. To generate individual minterms, substitute A, B, and C for ones and A', B', and C' for zeros. Then compute the sum of these items. Perhaps the easiest way to generate the canonical form of a Boolean function is to generate the truth table and then build the canonical form from the table. It is also simple to generate the sum of minterms form algebraically. Consider F248 again. Neither of its terms are minterms, so we will convert each individually term into a sum of minterms.
+
+AB = AB • 1	by Th4
+   = AB(C + C')	by Th15
+   = ABC + ABC'	by distributivity
+   = CBA + C'BA 	by associativity
+
+C = C • 1			by Th4
+  = C(A + A')			by Th15	
+  = CA + CA'			by distributivity
+  = CA • 1 + CA' • 1		by Th4
+  = CA(B + B') + CA'(B + B')	by Th15
+  = CAB + CAB' + CA'B + CA'B'	by distributivity
+  = CBA + CBA' + CB'A + CB'A'	by associativity
+
+The canonical form is thus F248 = CBA + CBA' + CB'A + CB'A' + C'BA. Another way to generate a canonical form is using products of maxterms. A maxterm is a sum of all input variables. There is exactly one product of maxterms for each possible logic function. Generating a truth table from the product of maxterms is no more difficult than building it from the sum of minterms. The duality principle is employed to accomplish this. You wouldd start by swapping primed and non-primed literals. You would then swap the OR and AND operators. You wouuld finally swap zeros and ones. We will generally use the sum of minterms form since it is less messy than the sum of maxterms form and more common in Boolean logic work.
+
+Simplification of Boolean functions.
+Since there are infinitely many Boolean functions of n variables but only finitely many unique Boolean functions of n variables, a natural question to ask is that of the existence of a method that simplifies a given Boolean function to its optimal form. Two methods other than algebraic transformations will reduce a given Boolean function to its optimal form: the map method and the prime implicants method. There are two reasons why the optimal form is not used as the canonical form: there may be more than one optimal form and conversion between the canonical and truth table forms is easy. Using the map method to optimize Boolean function is practical for functions of two, three, or four variables, possible for functions of five or six variables, and unwise for functions of more than six variables. The first step is to build a two-dimensional truth table for the function. For two variables:
+
+             A
+         0       1
+     ----------------
+   0   B'A'  |  B'A   
+B    ----------------
+   1    BA'  |   BA
+     ----------------
+
+For three variables:
+
+                          BA
+         00         01         11         10    
+     --------------------------------------------
+   0   C'B'A'  |   C'B'A  |   C'AB   |   C'BA'    
+C    --------------------------------------------
+   1    CB'A'  |    CB'A  |    CAB   |    CBA'  
+     --------------------------------------------
+
+For four variables:
+
+                               BA
+            00           01           11         10    
+       ----------------------------------------------------
+    00   D'C'B'A'  |   D'C'B'A  |   D'C'AB   |   D'C'BA'    
+       ----------------------------------------------------
+    01    D'CB'A'  |   D'CB'A   |    D'CAB   |   D'CBA'   
+DC     ----------------------------------------------------
+    11    DCB'A'   |    DCB'A   |    DCAB    |    DCBA'     
+       ----------------------------------------------------
+    10    DC'B'A'  |   DC'B'A   |    DC'AB   |   DC'BA'   
+       ----------------------------------------------------
+
+Note that the progression of the values is 00, 01, 11, 10, not 00, 01, 10, 11. If you organize the truth tables in a binary sequence, the mapping optimization method will not work. We therefore call these tables truth maps to distinguish them from truth tables. Assuming your Boolean function is in canonical form (sum of minterms), insert ones for each of the truth map entries corresponding to a minterm and zeros elsewhere. Consider the function F = C'B'A + C'BA' + C'BA + CB'A' + CB'A + CBA' + CBA. Below is the truth map for this function.
+
+                  BA
+       00     01     11     10    
+     ---------------------------
+   0    0  |   1  |   1  |   1 
+C    ---------------------------
+   1    1  |   1  |   1  |   1
+     ---------------------------
+
+The next step is to draw rectangles aroud rectangular groups of ones. The rectangles you enclose must have sides whose lengths are powers of two. For functions of three variables, the rectangles can have sides whose lengths are one, two, and four. The set of rectangles you draw must surround all cells containing ones in the truth map. The trick is to draw all possible rectangles unless a rectangle would be completely enclosed within another. Note that the rectangles may overlap if one does not enclose the other. There are three such rectangles in F's truth map. Each rectangle represents a term in the optimized Boolean function. You build each term with the process of elimination. You eliminate any variables whose primed and unprimed form both appear in the rectangle. This process is difficult to demonstrate on a text file, so determining the optimal form of this function is provided as an exercise. The optimal function is F = A + B + C. When enclosing groups of ones in a truth map, think of the truth map as a torus; the right edge of the map wraps around to the left edge and the top edge wraps around to the bottom edge. Consider the Boolean function F = C'B'A' + C'BA' + CB'A' + CBA', whose truth map is below.
+
+                  BA
+       00     01     11     10    
+     ---------------------------
+   0    1  |   0  |   0  |   1 
+C    ---------------------------
+   1    1  |   0  |   0  |   1
+     ---------------------------
+
+The fact that we can create one rectangle instead of two is important because fewer rectangles will result in fewer terms. If we were to use two rectangles on this map, we would wind up with F = A'B' + A'B, which is suboptimal according to theorem 13. Using the single rectangle, we would wind up with the optimal F = A'. Two cases that the truth map cannot handle are the map with all zeros and the map with all ones. These maps, though, are F = 0 and F = 1 respectively. Try to optimize the Boolean function F = C'B'A' + C'BA' + CB'A' + C'AB + CBA' + CBA with the map method for a challenge. The optimal result is F = B + A'. The size of the rectangle determines the number of terms it represents. 
+
+Correspondence between electronic circuits and Boolean functions.
+For any Boolean function you can design an electronic circuit and vice versa. Boolean functions only require AND, OR, and NOT operators, so we can construct any electronic circuit with these operators exclusively. These operators correspond to the AND, OR, and inverter gates (https://en.wikipedia.org/wiki/Logic_gate). Interestingly, only one gate type is needed to implement any electronic circuit: the NAND gate. Building an inverter is easy; just connect the two inputs together. An AND gate requires two NAND gates in succession. By applying De Morgan's laws, we find that A OR B is equivalent to A' NAND B'. This information is important because NAND gates are less expensive to build than other gates and it is easier to build complex integrated circuits from the same basic building blocks than it is to construct an integrated circuit using different basic gates. Note that the same logic can be applied to the NOR gate.
+
+Combinatorial circuits.
+A combinatorial circuit is a system containing basic Boolean operations, some inputs, and a set of outputs. Since each output corresponds to an individual logic function, a combinatorial circuit often implements several different Boolean functions. Remember that each output represents a different Boolean function. A CPU is built up from various combinatorial circuits. One can implement an addition circuit using Boolean functions. Suppose you have two one-bit numbers, A and B. You can produce the one-bit sum and the one-bit carry of this addition using two Boolean functions:
+
+S = AB' + A'B	sum of A and B
+C = AB		carry from addition of A and B
+
+These two Boolean functions implement a half-adder. It is called a half-adder because it adds two bits together but cannot add in a carry from a previous operation. A full adder adds three one-bit inputs (two bits plus a carry from a previous addition) and produces two outputs: the sum and the carry. Below are the two logic equations for a full adder.
+
+S = A'B'(C_in) + A'B(C_in)' + AB'(C_in)' + AB(C_in)
+C_out = AB + A(C_in) + B(C_in)
+
+Though these logic equations produce a single bit result, we can still construct an n-bit sum by combining adder circuits. As illustrated, we can use logic functions to implement arithmetic and Boolean operations. Another common combinatorial circuit is the seven-segment decoder. It accepts four inputs and determines which of the seven segments on a seven-segment LED display should be on (one) or off (zero). The four inputs to each of these seven Boolean functions are the four bits from a binary number from 0 to 9. Let D be the HO bit of this number and let A be the LO bit of this number. Each logic function should produce a one for a given input if that particular segment should be illuminated. For example, S4 (segment four) should be on for binary values 0000, 0010, 0110, and 1000. For each value that illuminates a segment, you will have one minterm in the logic equation
+
+S4 = D'C'B'A' + D'C'BA' + D'CBA' + DC'B'A'.
+
+S0 is on for values zero, two, three, five, six, seven, eight, and nine. Therefore, its logic equation is 
+
+S0 = D'C'B'A' + D'C'BA' + D'C'BA + D'CB'A + D'CBA' + D'CBA + DC'B'A' + DC'B'A.
+
+All other logic functions can be generated in a similar fashion. Combinatorial circuits form the basis for many components of a basic computer system. One can construct circuits for addition, subtraction, comparison, multiplication, division, and other operations using combinatorial logic. 
+
+Sequential and clocked logic.
+Combinatorial logic is memoryless. Computers need to remember the results of past computations. 
+A memory cell is an electronic circuit that remembers an input value after the removal of that input value. The most basic memory unit is the set/reset flip-flop. You can construct an S/R flip-flop using two NAND gates (see figure 2.21). The S and R inputs are normally high. If you temporarily set the S input to zero and then bring it back to one (toggle the S input), this forces the Q output to one. Likewise, if you toggle the R input from one to zero back to one, this sets the Q output to zero. The Q’ input is generally the inverse of the Q output. Note that if both S and R are one, then the Q output depends upon Q. That is, whatever Q happens to be, the top NAND gate continues to output that value. If Q was originally one, then there are two ones as inputs to the bottom flip-flop (Q NAND R). This produces an output of zero (Q’). Therefore, the two inputs to the top NAND gate are zero and one. This produces the value one as an output (matching the original value for Q). If the original value for Q was zero, then the inputs to the bottom NAND gate are Q = 0 and R = 1. Therefore, the output of this NAND gate is one. The inputs to the top NAND gate, therefore, are S = 1 and Q’ = 1. This produces a zero output, the original value of Q. Suppose Q is zero, S is zero and R is one. This sets the two inputs to the top flip-flop to one and zero, forcing the output (Q) to one. Returning S to the high state does not change the output at all. You can obtain this same result if Q is one, S is zero, and R is one. Again, this produces an output value of one. This value remains one even when S switches from zero to one. Therefore, toggling the S input from one to zero and then back to one produces a one on the output (sets the flip-flop). The same idea applies to the R input, except it forces the Q output to zero rather than to one. There is one catch to this circuit. It does not operate properly if you set both the S and R inputs to zero simultaneously. This forces both the Q and Q’ outputs to one (which is logically inconsistent). Whichever input remains zero the longest determines the final state of the flip-flop. A flip-flop operating in this mode is said to be unstable. The only problem with the S/R flip-flop is that you must use separate inputs to remember a zero or a one value. A memory cell would be more valuable to us if we could specify the data value to remember on one input and provide a clock input to latch the input value. This type of flip-flop is called the D flip-flop (for data) (see figure 2.22). Assuming you fix the Q and Q’ outputs to either 0/1 or 1/0, sending a clock pulse that goes from zero to one back to zero will copy the D input to the Q output. It will also copy D’ to Q’. Study this diagram carefully. Although remembering a single bit is often important, in most computer systems you will want to remember a group of bits. You can remember a sequence of bits by combining several D flip-flops in parallel. Concatenating flip-flops to store an n-bit value forms a register. Figure 2.23 shows how to build an eight-bit register from a set of D flip-flops. The eight D flip-flops use a common clock line. Q' outputs are rarely required in a register. D flip-flops are useful for building many sequential circuits above and beyond simple registers. For example, you can build a shift register that shifts the bits one position to the left on each clock pulse. A four-bit shift register appears (4). You can even build a counter, that counts the number of times the clock toggles from one to zero and back to one using flip-flops. The circuit in (5) implements a four-bit counter using D flip-flops. Surprisingly, you can build an entire CPU with combinatorial circuits and only a few additional sequential circuits beyond these.
+
+The connection to programming.
+With registers, counters, and shift registers, one can build state machines. Note that any algorithm you can implement in software can be implemented directly in hardware. This statement suggests Boolean logic is the basis for computation on all modern computer systems. Though implementing a large program using state machines and other logic circuitry is unlikely, there are times where hardware implementation is better. Hardware solutions can be many orders of magnitude faster than an equivalent software solution. Note that the converse of the previous statement is true. This fact is important because many operations you would normally implement in hardware are much cheaper to implement using software on a microprocessor. The chief use of assembly is to be an inexpensive replacement for a complex electronic circuit. 

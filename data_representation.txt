@@ -1,0 +1,148 @@
+Data representation.
+
+Discusses binary and hexadecimal numbering, binary data organization, signed and unsigned numbering, binary operations, bit fields/packed data, ASCII character set.
+
+The binary numbering system.
+Most modern computer systems operate using binary logic. Usually, 0 corresponds to 0 V and 1 to +5 V. Converting from binary to decimal is straightforward. For the nth bit in the binary number, add 2^n if it is a 1, and 0 if it is a 0. Converting from decimal to binary is more of a challenge. In essence, you take all powers of two up to the decimal number, D, and compare each power of two to D. Add a 1 and subtract the power of two from D if the power of two is less than or equal to D. Add a 0 if the power of two is greater than D.
+
+Binary formats.
+When working with 80x86, let us extend all binary numbers to some multiple of four or eight bits. We would extend, therefore, 101 to 0101 or 00000101. Let us also separate each group of four binary bits. We would turn 1010111101011001 into 1010 1111 0101 1001. We will assign a numerical value to each bit position. the rightmost bit will be given position zero, incrementing by one each successive bit to the left. Let us refer to bit zero as the L.O. (low order) bit. Let us refer to the leftmost bit as the H.O. (high order) bit. A "b" will end all binary values.
+
+Data organization. 
+Computers generally work with a specific number of bits. Let us call a group of four bits a nibble. Let us call a group of eight bits a byte. Let us call a group of 16 bits a word. Let us call a group of 32 bits a double word.
+
+Bits.
+A bit is the smallest unit of data on a binary computer. You can represent two different values with a single bit. Different bits can represent different things. You cannot determine what each bit represents in a binary value. This idea illustrates the purpose of computer data structures: data is what you define it to be. You should be consistent in your choice of what bits represent. Do not have a specific bit represent a Boolean value at one time but two different values at a later time. Bits are difficult to manipulate, so we will use other data types to represent Boolean values.
+
+Nibbles.
+A nibble is a collection of four bits. BCD (binary coded decimal) numbers and hexadecimal numbers are the main uses for nibbles. 
+
+Bytes.
+A byte consists of eight bits. The smallest addressable datum on 80x86. Main memory and I/O addresses are all byte addresses. Note that a byte contains two nibbles. Bytes are normally used to represent numeric values from 0 to 255, signed numbers from -128 to 127, ASCII character codes, and other data types that require no more than 256 different values. It is much more efficient to manipulate an entire byte rather than bits or nibbles since the 80x86 is byte-addressable. It makes sense to use whole bytes to represent data types, even if less than 8 bits would suffice. Boolean values true and false are therefore often represented by 0000 0001 and 0000 0000 respectively. Bytes are most useful for holding a character code. Every character has a numeric value defined in the ASCII character set. There are 128 characters in this set. 
+
+Words. 
+A word is a group of 16 bits. It contains two bytes or four nibbles. Three major uses for words are integer values, offsets, and segment values. Words can represent integer values from 0 to 65 535 or -32 768 to 32 767. Unsigned values are represented by the binary value corresponding to the bits in the word whereas signed values use the two's complement form for numeric values. Segment values constitute the paragraph address of a code, data, extra, or stack segment in memory.
+
+Double words.
+A double word is 32 bits long. Foremost, double words represent segmented addresses. They also represent 32-bit integers and 32-bit floating-point values.
+
+The hexadecimal numbering system.
+The binary numbering system is verbose. A number that requires 8 bits requires only 2 hexadecimal digits. Since the radix of a hexadecimal number is 16, 6 more digits are required. Uppercase A through uppercase F replaced numbers 10 through 15. Refer to the table below for easy conversion between binary and hex. An "h" will end all hexadecimal values.
+
+     BINARY     |   HEXADECIMAL
+––––––––––––––––––––––––––––––––––
+      0000      |	0
+––––––––––––––––––––––––––––––––––
+      0001      |	1
+––––––––––––––––––––––––––––––––––
+      0010      |	2
+––––––––––––––––––––––––––––––––––
+      0011      |	3
+––––––––––––––––––––––––––––––––––
+      0100      |	4
+––––––––––––––––––––––––––––––––––
+      0101      |	5
+––––––––––––––––––––––––––––––––––
+      0110      |	6
+––––––––––––––––––––––––––––––––––
+      0111      |	7
+––––––––––––––––––––––––––––––––––
+      1000      |	8
+––––––––––––––––––––––––––––––––––
+      1001      |	9
+––––––––––––––––––––––––––––––––––
+      1010      |	A
+––––––––––––––––––––––––––––––––––
+      1011      |	B
+––––––––––––––––––––––––––––––––––
+      1100      |	C
+––––––––––––––––––––––––––––––––––
+      1101      |	D
+––––––––––––––––––––––––––––––––––
+      1110      |	E
+––––––––––––––––––––––––––––––––––
+      1111      |	F
+
+Arithmetic operations on binary and hexadecimal numbers.
+Never perform binary calculations by hand. Always convert to hexadecimal and, preferably with a calculator, perform the calculation, finally converting back to binary.
+
+Logical operations on bits. 
+The four main logical operations on hexadecimal and binary numbers are AND, OR, XOR, and NOT. The logical AND operation is dyadic on two bits. 0 AND 0 = 0. 0 AND 1 = 0. 1 AND 0 = 0. 1 AND 1 = 1. It is best shown in its truth table:
+
+  AND  |   0   |   1
+–––––––––––––––––––––––
+   0   |   0   |   1
+–––––––––––––––––––––––
+   1   |   1   |   1
+
+The logical OR operation is also dyadic on two bits. 0 OR 0 = 0. 0 OR 1 = 1. 1 OR 0 = 1. 1 OR 1 = 1. Its truth table:
+
+   OR  |   0   |   1
+–––––––––––––––––––––––
+   0   |   0   |   0
+–––––––––––––––––––––––
+   1   |   0   |   1
+
+The logical XOR operation is also dyadic on two bits. 0 XOR 0 = 0. 0 XOR 1 = 1. 1 XOR 0 = 1. 1 XOR 1 = 1. Its truth table:
+
+  XOR  |   0   |   1
+–––––––––––––––––––––––
+   0   |   0   |   1
+–––––––––––––––––––––––
+   1   |   1   |   0
+
+The logical NOT operation is a monadic operation on a bit. It flips a bit. NOT 0 = 1. NOT 1 = 0.
+
+Logical operations on binary numbers and bit strings.
+You can theoretically apply the same operations—AND, OR, XOR, and NOT—on a bit string. To do this, you apply the operation on each bit. 
+
+Signed and unsigned numbers.
+To represent signed numbers using binary we have to restrict the numbers: they must have a finite and fixed number of bits. We will restrict the bits in a bit string to be 8, 16, or 32. With n bits, we can represent the integers -2^(n-1) through 2^(n-1)-1. The most common method used to represent signed binary numbers is called two's complement. The H.O. bit is a sign bit. If the H.O. bit is 0, the number is positive. If it is 1, the number is negative. To convert from a positive to a negative number in two's complement form, you first flip all bits in the number and then add one. For example, 0000 0101 is five in binary. To compute -5 in eight bits, invert the bits : 1111 1010, then add 1 : 1111 1011. Signed arithmetic overflow is possible on an 80x86 using this system. If we have 8000h, that is 1000 0000 0000 0000 in binary. Inverting all the bits, we obtain 0111 1111 1111 1111. When we add one, we are right back to 1000 0000 0000 0000. We cannot, therefore, negate the smallest number possible ( -2^(n-1) ). We use this system anyway because we can use the same hardware for signed and unsigned addition and subtraction; we store a number in standard binary if its H.O. bit is zero, and store its two's complement if its H.O. bit is 1.
+
+Sign and zero extension. 
+A problem arises when you need to convert an 8-bit two's complement to sixteen bits (or some conversion of the like). It can be solved using sign extension and contraction. Take the number -64. Its 8-bit two's complement value is 0C0h. In sixteen bits, it is 0FFC0h. Take the number 64. Its eight and 16-bit values are 40h and 0040h. For eight and 16-bit numbers, the rule is, "if the number is negative, the H.O. byte of the 16-bit number contains 0FFh. If it is positive, the H.O. byte of the 16-bit number is 0." To sign extend, pad the rest of the bits with the sign bit. Remember not to sign extend unsigned values. We use zero extension to extend an unsigned value. You simply pad the unsigned binary number with zeros to fit the desired number of bits. Sign contraction—decreasing the number of bits—is much more difficult. Sign extension always works whereas sign contraction does not always. To sign contract, look at the H.O. bytes you want to discard. In hexadecimal, the H.O. bytes must contain either 0 or 0FFh. Otherwise, you cannot contract it without overflow. The H.O. bit of the resulting value also must match every bit you removed from the number. 
+
+Shifts and rotates. 
+Bit shifting left in binary is the equivalent to adding n zeros for n bit shifts to the bit string. In decimal, that is like multiplying by 2^n for n bit shifts. Bit shifting right in binary is the equivalent of removing the rightmost n bits for n bit shifts from the bit string. In decimal, that is like dividing by 2^n for n bit shifts. Always truncate this value. Bit shifting right, however, only works for unsigned binary numbers. We must define the arithmetic shift right. Instead of shifting a zero into the H.O. bit, you leave it alone and shift everything else normally (the L.O. bit is carried out). For example, if we arithmetic shift right 1001 0111, the output is 1100 1011. Truncation rounds to negative infinity, not 0. Bit rotates are the same as bit shifts, except the carried out bit takes the place of the H.O. bit.
+
+Bit fields and packed data.
+Consider the date of form "19/7/20". It will take 5 bits for the day, 4 bits for the month, and, assuming we use the numbers 0 through 99, 7 bits for the year. The sum of the bits of each part of the date is 16—2 bytes. We can, therefore, pack our date data into two bytes instead of three for each component of the date. Packed values are memory-efficient but computationally inefficient. Carefully consider whether packed data fields will save you anything. Packing eight Boolean values into a single byte is a common use of bit fields.
+
+The ASCII character set.
+This character set is divided into four groups of 32 characters. 0 through 31 is a set of control characters. There is little standardization for this subset of the ASCII character set. The second group of 32 is made up of punctuation symbols. This subset includes the numeric digits. Subtracting 30h from the ASCII code gives the numeric equivalent of the number. The third group is for uppercase alphabetic characters and special characters. The fourth group is reserved for the lowercase alphabetic characters, special characters, and a control character—delete. Uppercase characters always have a zero in bit five of their character code whereas lowercase characters always have a one in bit five of their character code. Otherwise, they have the same bit string. This makes for an easy conversion between the two. Bits five and six determine which group you are in.
+
+ BIT 6 | BIT 5 |         GROUP                   
+––––––––––––––––––––––––––––––––––––––––
+   0   |   0   |   CONTROL CHARACTERS	    
+––––––––––––––––––––––––––––––––––––––––
+   0   |   1   |   DIGITS/PUNCTUATION
+––––––––––––––––––––––––––––––––––––––––
+   1   |   0   |   UPPER CASE/SPECIAL
+––––––––––––––––––––––––––––––––––––––––
+   1   |   1   |   LOWER CASE/SPECIAL
+
+Inspect the hexadecimal values for the numeric digit characters. 
+
+ REPRESENTATION |    HEXADECIMAL
+–––––––––––––––––––––––––––––––––––
+      "0"       |	30h
+–––––––––––––––––––––––––––––––––––
+      "1"       |	31h
+–––––––––––––––––––––––––––––––––––
+      "2"       |	32h
+–––––––––––––––––––––––––––––––––––
+      "3"       |	33h
+–––––––––––––––––––––––––––––––––––
+      "4"       |	34h
+–––––––––––––––––––––––––––––––––––
+      "5"       |	35h
+–––––––––––––––––––––––––––––––––––
+      "6"       |	36h
+–––––––––––––––––––––––––––––––––––
+      "7"       |	37h
+–––––––––––––––––––––––––––––––––––
+      "8"       |	38h
+–––––––––––––––––––––––––––––––––––
+      "9"       |	39h
+
+You will find that the L.O. nibble of the ASCII code is the binary equivalent of the represented number. If you set the H.O. nibble of a numeric character to zero, you convert it to the number's binary representation. Conversely, setting the H.O. nibble of the binary value to 3. Since 128 of the 256 possible character codes are used, IBM uses the remaining possible codes for other characters. Most machines using the 80x86 support this extension.
